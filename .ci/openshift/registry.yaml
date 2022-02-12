@@ -1,0 +1,7 @@
+apiVersion: registry.devfile.io/v1alpha1
+kind: DevfileRegistry
+metadata:
+  name: devfileregistry
+  namespace: paver
+spec:
+  devfileIndexImage: 'quay.io/rgopinat/devfile-index:next'

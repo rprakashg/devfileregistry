@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
+ABSOLUTE_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 GIT_REV="$(git rev-parse --short=7 HEAD)"
 IMAGE="${REGISTRY:-quay.io/rgopinat/devfile-index}"
 IMAGE_TAG="${IMAGE_TAG:-${GIT_REV}}"
 
-podman build --no-cache -t devfile-index -f .
+podman build --no-cache -t devfile-index -f $ABSOLUTE_PATH/Dockerfile $ABSOLUTE_PATH/..
 
 if [[ -n "$QUAY_USER" && -n "$QUAY_TOKEN" ]]; then
     podman tag devfile-index "${IMAGE}:${IMAGE_TAG}"

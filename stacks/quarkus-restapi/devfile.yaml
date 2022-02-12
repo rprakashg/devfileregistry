@@ -1,24 +1,24 @@
-schemaVersion: 2.0.0
+schemaVersion: 2.2.0
 metadata:
-  name: java-quarkus
-  version: 1.1.0
-  website: https://quarkus.io
-  displayName: Quarkus Java
-  description: Quarkus with Java
+  name: quarkus-restapi
+  version: 0.0.1
+  provider: rprakashg
+  website: https://rprakashg.github.io
+  displayName: quarkus restapi
+  description: Rest APIs in Quarkus with Java
   icon: https://design.jboss.org/quarkus/logo/final/SVG/quarkus_icon_rgb_default.svg
-  tags: ['Java', 'Quarkus']
+  tags: [ 'Java', 'Quarkus', 'Rest', 'Api' ]
   projectType: 'quarkus'
   language: 'java'
 starterProjects:
-  - name: community
-    zip:
-      location: https://code.quarkus.io/d?e=io.quarkus%3Aquarkus-resteasy&e=io.quarkus%3Aquarkus-micrometer&e=io.quarkus%3Aquarkus-smallrye-health&e=io.quarkus%3Aquarkus-openshift&cn=devfile
-  - name: redhat-product
-    zip:
-      location: https://code.quarkus.redhat.com/d?e=io.quarkus%3Aquarkus-resteasy&e=io.quarkus%3Aquarkus-smallrye-health&e=io.quarkus%3Aquarkus-openshift
+  - name: quarkus-restapi-starter
+    git:
+      checkoutFrom:
+        revision: main
+      remotes:
+        origin: https://github.com/rprakashg/quarkus=restapi-starter.git
 components:
-  - name: tools
-    container:
+  - container:
       image: registry.access.redhat.com/ubi8/openjdk-11
       memoryLimit: 512Mi ## default app nowhere needs this but leaving room for expansion.
       mountSources: true
@@ -26,35 +26,40 @@ components:
         - name: m2
           path: /home/user/.m2
       endpoints:
-        - name: '8080-http'
+        - name: 'http'
           targetPort: 8080
-  - name: m2
-    volume:
+    name: mvn
+  - volume:
       size: 3Gi
+    name: m2
 commands:
-  - id: init-compile
+  - id: compile
     exec:
-      component: tools
+      component: mvn
       commandLine: 'mvn -Dmaven.repo.local=/home/user/.m2/repository compile'
       workingDir: $PROJECTS_ROOT
-  - id: dev-run
+  - id: test
     exec:
-      component: tools
+      component: mvn
+      commandLine: './mvnw verify -Dquarkus.http.test-host=1.2.3.4 -Dquarkus.http.test-port=4321'
+      workingDir: $PROJECTS_ROOT
+  - id: run
+    exec:
+      component: mvn
       commandLine: 'mvn -Dmaven.repo.local=/home/user/.m2/repository quarkus:dev -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager'
       hotReloadCapable: true
       group:
         kind: run
         isDefault: true
       workingDir: $PROJECTS_ROOT
-  - id: dev-debug
+  - id: debug
     exec:
-      component: tools
+      component: mvn
       commandLine: 'mvn -Dmaven.repo.local=/home/user/.m2/repository quarkus:dev -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -Ddebug=${DEBUG_PORT}'
       hotReloadCapable: true
       group:
         kind: debug
         isDefault: true
       workingDir: $PROJECTS_ROOT
-events:
-  postStart:
-    - init-compile
+
+

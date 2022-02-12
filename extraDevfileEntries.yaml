@@ -11,25 +11,3 @@ samples:
     git:
       remotes:
         origin: https://github.com/nodeshift-starters/devfile-sample.git
-  - name: code-with-quarkus
-    displayName: Basic Quarkus
-    description: A simple Hello World Java application using Quarkus
-    icon: https://design.jboss.org/quarkus/logo/final/SVG/quarkus_icon_rgb_default.svg
-    tags: ["Java", "Quarkus"]
-    projectType: quarkus
-    language: java
-    provider: Red Hat
-    git:
-      remotes:
-        origin: https://github.com/devfile-samples/devfile-sample-code-with-quarkus.git
-  - name: java-springboot-basic
-    displayName: Basic Spring Boot
-    description: A simple Hello World Java Spring Boot application using Maven
-    icon: https://spring.io/images/projects/spring-edf462fec682b9d48cf628eaf9e19521.svg
-    tags: ["Java", "Spring"]
-    projectType: springboot
-    language: java
-    provider: Red Hat
-    git:
-      remotes:
-        origin: https://github.com/devfile-samples/devfile-sample-java-springboot-basic.git
