@@ -16,7 +16,7 @@ starterProjects:
       checkoutFrom:
         revision: main
       remotes:
-        origin: https://github.com/rprakashg/quarkus=restapi-starter.git
+        origin: https://github.com/rprakashg/quarkus-restapi-starter.git
 components:
   - container:
       image: registry.access.redhat.com/ubi8/openjdk-11
