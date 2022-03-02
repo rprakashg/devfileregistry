@@ -24,7 +24,7 @@ starterProjects:
     checkoutFrom:
       revision: main
     remotes:
-      origin: https://github.com/rprakashg/quarkus=restapi-starter.git
+      origin: https://github.com/rprakashg/quarkus-restapi-starter.git
   name: quarkus-restapi-starter
 commands:
 - id: compile
