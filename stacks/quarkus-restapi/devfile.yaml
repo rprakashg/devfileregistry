@@ -1,6 +1,6 @@
 schemaVersion: 2.2.0
 metadata:
-  name:  quarkus-restapi-starter
+  name:  quarkus-restapi
   displayName: Quarkus RESTApi
   description: Java stack with OpenJDK 11, Maven 3.6.3 and Quarkus tools for building RESTful APIs
   language: java
