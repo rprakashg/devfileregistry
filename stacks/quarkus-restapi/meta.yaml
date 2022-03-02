@@ -1,0 +1,18 @@
+---
+name:  quarkus-restapi-starter
+displayName: Quarkus RESTApi
+description: Java stack with OpenJDK 11, Maven 3.6.3 and Quarkus tools for building RESTful APIs
+language: java
+tags: [
+  "Java",
+  "Quarkus",
+  "Maven",
+  "REST",
+  "API"
+]
+icon: https://design.jboss.org/quarkus/logo/final/SVG/quarkus_icon_rgb_default.svg
+version: 0.0.1
+provider: rprakashg
+supportUrl: https://rprakashg.github.io/devfileregistry 
+website: https://rprakashg.github.io
+links:

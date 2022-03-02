@@ -1,13 +1,13 @@
 schemaVersion: 1.0.0
 samples:
-  - name: nodejs-basic
-    displayName: Basic Node.js
-    description: A simple Hello World Node.js application
-    icon: https://nodejs.org/static/images/logos/nodejs-new-pantone-black.svg
-    tags: ["NodeJS", "Express"]
-    projectType: nodejs
-    language: nodejs
+  - name: code-with-quarkus
+    displayName: Basic Quarkus
+    description: A simple Hello World Java application using Quarkus
+    icon: https://design.jboss.org/quarkus/logo/final/SVG/quarkus_icon_rgb_default.svg
+    tags: ["Java", "Quarkus"]
+    projectType: quarkus
+    language: java
     provider: Red Hat
     git:
       remotes:
-        origin: https://github.com/nodeshift-starters/devfile-sample.git
+        origin: https://github.com/devfile-samples/devfile-sample-code-with-quarkus.git

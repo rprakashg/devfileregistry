@@ -1,65 +1,96 @@
 schemaVersion: 2.2.0
 metadata:
-  name: quarkus-restapi
-  version: 0.0.1
-  provider: rprakashg
-  website: https://rprakashg.github.io
-  displayName: quarkus restapi
-  description: Rest APIs in Quarkus with Java
+  name:  quarkus-restapi-starter
+  displayName: Quarkus RESTApi
+  description: Java stack with OpenJDK 11, Maven 3.6.3 and Quarkus tools for building RESTful APIs
+  language: java
+  tags: [
+    "Java",
+    "Quarkus",
+    "Maven",
+    "REST",
+    "API"
+  ]
   icon: https://design.jboss.org/quarkus/logo/final/SVG/quarkus_icon_rgb_default.svg
-  tags: [ 'Java', 'Quarkus', 'Rest', 'Api' ]
-  projectType: 'quarkus'
-  language: 'java'
-starterProjects:
-  - name: quarkus-restapi-starter
-    git:
-      checkoutFrom:
-        revision: main
-      remotes:
-        origin: https://github.com/rprakashg/quarkus-restapi-starter.git
-components:
-  - container:
-      image: registry.access.redhat.com/ubi8/openjdk-11
-      memoryLimit: 512Mi ## default app nowhere needs this but leaving room for expansion.
-      mountSources: true
-      volumeMounts:
-        - name: m2
-          path: /home/user/.m2
-      endpoints:
-        - name: 'http'
-          targetPort: 8080
-    name: mvn
-  - volume:
-      size: 3Gi
-    name: m2
-commands:
-  - id: compile
-    exec:
-      component: mvn
-      commandLine: 'mvn -Dmaven.repo.local=/home/user/.m2/repository compile'
-      workingDir: $PROJECTS_ROOT
-  - id: test
-    exec:
-      component: mvn
-      commandLine: './mvnw verify -Dquarkus.http.test-host=1.2.3.4 -Dquarkus.http.test-port=4321'
-      workingDir: $PROJECTS_ROOT
-  - id: run
-    exec:
-      component: mvn
-      commandLine: 'mvn -Dmaven.repo.local=/home/user/.m2/repository quarkus:dev -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager'
-      hotReloadCapable: true
-      group:
-        kind: run
-        isDefault: true
-      workingDir: $PROJECTS_ROOT
-  - id: debug
-    exec:
-      component: mvn
-      commandLine: 'mvn -Dmaven.repo.local=/home/user/.m2/repository quarkus:dev -Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager -Ddebug=${DEBUG_PORT}'
-      hotReloadCapable: true
-      group:
-        kind: debug
-        isDefault: true
-      workingDir: $PROJECTS_ROOT
+  version: 0.0.1
+  projectType: "quarkus"
+  provider: rprakashg
+  supportUrl: https://rprakashg.github.io/devfileregistry 
+  website: https://rprakashg.github.io
+  links:
 
+starterProjects:
+- git:
+    checkoutFrom:
+      revision: main
+    remotes:
+      origin: https://github.com/rprakashg/quarkus=restapi-starter.git
+  name: quarkus-restapi-starter
+commands:
+- id: compile
+  exec:
+    commandLine: ./mvnw -Dmaven.repo.local=/home/user/.m2/repository compile
+    component: mvn
+    workingDir: $PROJECTS_ROOT
+- id: analyze
+  exec:
+    commandLine: ./mvnw clean verify sonar:sonar
+    component: mvn
+    workingDir: $PROJECTS_ROOT
+- id: package
+  exec:
+    commandLine: ./mvnw clean package -Dquarkus.native.container-build=true -Dquarkus.container-image.build=true
+      -Dquarkus.native.container-runtime=podman
+    component: mvn
+    workingDir: $PROJECTS_ROOT
+- id: rununittests
+  exec:
+    commandLine: ./mvnw verify -Dquarkus.http.test-host=1.2.3.4 -Dquarkus.http.test-port=4321
+    component: mvn
+    workingDir: $PROJECTS_ROOT
+- id: run
+  exec:
+    commandLine: ./mvnw -Dmaven.repo.local=/home/user/.m2/repository quarkus:dev -Dquarkus.http.host=0.0.0.0
+      -Djava.util.logging.manager=org.jboss.logmanager.LogManager
+    component: mvn
+    group:
+      kind: run
+    hotReloadCapable: true
+    workingDir: $PROJECTS_ROOT
+- id: debug
+  exec:
+    commandLine: mvn -Dmaven.repo.local=/home/user/.m2/repository quarkus:dev -Dquarkus.http.host=0.0.0.0
+      -Djava.util.logging.manager=org.jboss.logmanager.LogManager -Ddebug=${DEBUG_PORT}
+    component: mvn
+    group:
+      kind: debug
+    hotReloadCapable: true
+    workingDir: $PROJECTS_ROOT
+- id: build
+  composite:
+    commands:
+    - compile
+    - analyze
+    - rununittests
+    - package
+components:
+- name: mvn
+  container:
+    image: registry.access.redhat.com/ubi8/openjdk-11
+    memoryLimit: 512Mi
+    mountSources: true
+    endpoints:
+      - name: http
+        targetPort: 8080
+      - name: debug
+        targetPort: 5005      
+    volumeMounts:
+      - name: m2
+        path: /home/user/.m2
+- name: m2
+  volume:
+    size: 3Gi
+events:
+  postStart:
+  - compile
 
